@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Primary Meta Tags -->
+  <!-- TODO: confirm the final paper title and full author list -->
+  <meta name="title" content="BronchoSim: Patient-Specific, Breathing, Photorealistic Bronchoscopy Video at Scale">
+  <meta name="description" content="BronchoSim turns patient CT into photorealistic, breathing bronchoscopy videos with exact camera pose, depth and motion labels, including navigation corner cases.">
+  <meta name="keywords" content="bronchoscopy, video diffusion, surgical simulation, synthetic data, sim-to-real, respiratory motion, navigation, Cosmos-Transfer, medical imaging">
+  <meta name="author" content="Hongchao Shu">
+  <!-- TODO: switch to "index, follow" when the paper is public; noindex keeps the review link out of search engines -->
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="language" content="English">
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Johns Hopkins University">
+  <meta property="og:title" content="BronchoSim: Patient-Specific, Breathing, Photorealistic Bronchoscopy Video at Scale">
+  <meta property="og:description" content="Photorealistic, breathing bronchoscopy videos generated from patient CT, with exact pose, depth and motion labels.">
+  <!-- TODO: replace with the deployed page URL -->
+  <meta property="og:url" content="https://soooooda69.github.io/bronchosim/">
+  <meta property="og:image" content="https://soooooda69.github.io/bronchosim/static/images/social_preview.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="BronchoSim: generated bronchoscopy frames">
+  <meta property="article:author" content="Hongchao Shu">
+  <meta property="article:section" content="Research">
+  <meta property="article:tag" content="bronchoscopy">
+  <meta property="article:tag" content="video diffusion">
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="BronchoSim: Patient-Specific, Breathing, Photorealistic Bronchoscopy Video at Scale">
+  <meta name="twitter:description" content="Photorealistic, breathing bronchoscopy videos generated from patient CT, with exact pose, depth and motion labels.">
+  <meta name="twitter:image" content="https://soooooda69.github.io/bronchosim/static/images/social_preview.png">
+  <meta name="twitter:image:alt" content="BronchoSim: generated bronchoscopy frames">
+
+  <!-- Academic/Research Specific -->
+  <!-- TODO: add co-authors (one citation_author tag each) and the venue once known -->
+  <meta name="citation_title" content="BronchoSim: Patient-Specific, Breathing, Photorealistic Bronchoscopy Video at Scale">
+  <meta name="citation_author" content="Shu, Hongchao">
+  <meta name="citation_publication_date" content="2026">
+
+  <meta name="theme-color" content="#2563eb">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://ajax.googleapis.com">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net">
+
+  <title>BronchoSim: Photorealistic Bronchoscopy Video at Scale</title>
+
+  <link rel="icon" type="image/x-icon" href="static/images/favicon.ico">
+  <link rel="apple-touch-icon" href="static/images/favicon.ico">
+
+  <link rel="stylesheet" href="static/css/bulma.min.css">
+  <link rel="stylesheet" href="static/css/index.css">
+  <link rel="stylesheet" href="static/css/bronchosim.css">
+
+  <link rel="preload" href="static/css/bulma-carousel.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <link rel="preload" href="static/css/bulma-slider.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <link rel="preload" href="static/css/fontawesome.all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <link rel="preload" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript>
+    <link rel="stylesheet" href="static/css/bulma-carousel.min.css">
+    <link rel="stylesheet" href="static/css/bulma-slider.min.css">
+    <link rel="stylesheet" href="static/css/fontawesome.all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  </noscript>
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <script defer src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script defer src="static/js/fontawesome.all.min.js"></script>
+  <script defer src="static/js/bulma-carousel.min.js"></script>
+  <script defer src="static/js/bulma-slider.min.js"></script>
+  <script defer src="static/js/index.js"></script>
+  <script defer src="static/js/bronchosim.js"></script>
+
+  <!-- three.js for the interactive breathing airway -->
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "https://cdn.jsdelivr.net/npm/three@0.169.0/build/three.module.js",
+      "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.169.0/examples/jsm/"
+    }
+  }
+  </script>
+  <script type="module" src="static/js/breathing_viewer.js"></script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "ScholarlyArticle",
+    "headline": "BronchoSim: Patient-Specific, Breathing, Photorealistic Bronchoscopy Video at Scale",
+    "description": "Photorealistic, breathing bronchoscopy videos generated from patient CT, with exact pose, depth and motion labels.",
+    "author": [
+      {
+        "@type": "Person",
+        "name": "Hongchao Shu",
+        "affiliation": { "@type": "Organization", "name": "Johns Hopkins University" }
+      }
+    ],
+    "datePublished": "2026",
+    "url": "https://soooooda69.github.io/bronchosim/",
+    "image": "https://soooooda69.github.io/bronchosim/static/images/social_preview.png",
+    "keywords": ["bronchoscopy", "video diffusion", "synthetic data", "surgical simulation", "respiratory motion"],
+    "isAccessibleForFree": true
+  }
+  </script>
+</head>
+<body>
+
+  <button class="scroll-to-top" onclick="scrollToTop()" title="Scroll to top" aria-label="Scroll to top">
+    <i class="fas fa-chevron-up"></i>
+  </button>
+
+  <main id="main-content">
+
+  <!-- Title, authors, links -->
+  <section class="hero">
+    <div class="hero-body">
+      <div class="container is-max-desktop">
+        <div class="columns is-centered">
+          <div class="column has-text-centered">
+            <h1 class="title is-1 publication-title">BronchoSim</h1>
+            <p class="publication-subtitle">Patient-Specific, Breathing, Photorealistic Bronchoscopy Video at Scale</p>
+
+            <!-- TODO: add co-authors as additional author-block spans, and link each name -->
+            <div class="is-size-5 publication-authors">
+              <span class="author-block">Hongchao Shu</span>
+            </div>
+            <div class="is-size-5 publication-authors">
+              <!-- TODO: add venue and year once accepted -->
+              <span class="author-block">Johns Hopkins University</span>
+            </div>
+
+            <div class="column has-text-centered">
+              <div class="publication-links">
+                <!-- TODO: point at the paper and remove is-coming-soon -->
+                <span class="link-block">
+                  <a class="external-link button is-normal is-rounded is-dark is-coming-soon" aria-disabled="true">
+                    <span class="icon"><i class="fas fa-file-pdf"></i></span>
+                    <span>Paper (soon)</span>
+                  </a>
+                </span>
+                <!-- TODO: once github.com/Soooooda69/BronchoVideoDiffusion is public, restore
+                     href="https://github.com/Soooooda69/BronchoVideoDiffusion" target="_blank" and drop is-coming-soon -->
+                <span class="link-block">
+                  <a class="external-link button is-normal is-rounded is-dark is-coming-soon" aria-disabled="true">
+                    <span class="icon"><i class="fab fa-github"></i></span>
+                    <span>Code (soon)</span>
+                  </a>
+                </span>
+                <!-- TODO: add the arXiv id and remove is-coming-soon -->
+                <span class="link-block">
+                  <a class="external-link button is-normal is-rounded is-dark is-coming-soon" aria-disabled="true">
+                    <span class="icon"><i class="ai ai-arxiv"></i></span>
+                    <span>arXiv (soon)</span>
+                  </a>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Paired data: one row per patient -->
+  <section class="hero teaser" id="paired">
+    <div class="container is-max-desktop">
+      <div class="hero-body">
+        <div data-pager-root>
+          <div class="panel-labels is-5 paired-labels">
+            <span>Scope in the airway</span><span>Geometric render</span><span>Depth</span><span>Surface normal</span><span class="is-ours">BronchoSim</span>
+          </div>
+        <div class="gallery-page paired-page">
+          <video class="paired-row" poster="static/images/posters/paired_00.jpg" muted loop playsinline preload="none" data-autoplay-inview><source src="static/videos/paired/00.mp4" type="video/mp4"></video>
+          <video class="paired-row" poster="static/images/posters/paired_01.jpg" muted loop playsinline preload="none" data-autoplay-inview><source src="static/videos/paired/01.mp4" type="video/mp4"></video>
+          <video class="paired-row" poster="static/images/posters/paired_02.jpg" muted loop playsinline preload="none" data-autoplay-inview><source src="static/videos/paired/02.mp4" type="video/mp4"></video>
+          <video class="paired-row" poster="static/images/posters/paired_03.jpg" muted loop playsinline preload="none" data-autoplay-inview><source src="static/videos/paired/03.mp4" type="video/mp4"></video>
+        </div>
+        <div class="gallery-page paired-page">
+          <video class="paired-row" poster="static/images/posters/paired_04.jpg" muted loop playsinline preload="none" data-autoplay-inview><source src="static/videos/paired/04.mp4" type="video/mp4"></video>
+          <video class="paired-row" poster="static/images/posters/paired_05.jpg" muted loop playsinline preload="none" data-autoplay-inview><source src="static/videos/paired/05.mp4" type="video/mp4"></video>
+          <video class="paired-row" poster="static/images/posters/paired_06.jpg" muted loop playsinline preload="none" data-autoplay-inview><source src="static/videos/paired/06.mp4" type="video/mp4"></video>
+          <video class="paired-row" poster="static/images/posters/paired_07.jpg" muted loop playsinline preload="none" data-autoplay-inview><source src="static/videos/paired/07.mp4" type="video/mp4"></video>
+        </div>
+        <div class="gallery-page paired-page">
+          <video class="paired-row" poster="static/images/posters/paired_08.jpg" muted loop playsinline preload="none" data-autoplay-inview><source src="static/videos/paired/08.mp4" type="video/mp4"></video>
+          <video class="paired-row" poster="static/images/posters/paired_09.jpg" muted loop playsinline preload="none" data-autoplay-inview><source src="static/videos/paired/09.mp4" type="video/mp4"></video>
+          <video class="paired-row" poster="static/images/posters/paired_10.jpg" muted loop playsinline preload="none" data-autoplay-inview><source src="static/videos/paired/10.mp4" type="video/mp4"></video>
+          <video class="paired-row" poster="static/images/posters/paired_11.jpg" muted loop playsinline preload="none" data-autoplay-inview><source src="static/videos/paired/11.mp4" type="video/mp4"></video>
+        </div>
+          <div class="pager">
+            <button class="pager-arrow" type="button" data-pager="prev" aria-label="Previous patients"><i class="fas fa-chevron-left"></i></button>
+            <div class="pager-dots"></div>
+            <button class="pager-arrow" type="button" data-pager="next" aria-label="Next patients"><i class="fas fa-chevron-right"></i></button>
+          </div>
+        </div>
+        <h2 class="subtitle has-text-centered" style="margin-top: 1rem;">
+          Every row is one patient. The scope follows a planned path through the breathing airway, and each
+          frame comes with its geometric render, depth and surface normals, all exactly aligned with the
+          <b>BronchoSim</b> video generated from that render. Played in real time.
+        </h2>
+      </div>
+    </div>
+  </section>
+
+  <!-- Abstract + highlights -->
+  <section class="section hero is-light">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered has-text-centered">
+        <div class="column is-four-fifths">
+          <h2 class="title is-3">Abstract</h2>
+          <div class="content has-text-justified">
+            <p>
+              Learning-based bronchoscopic navigation needs large amounts of video with exact geometry, yet
+              clinical recordings are scarce, lack reliable per-frame pose, and rarely capture the failure
+              modes that matter most. Simulators provide perfect labels but look nothing like a real airway.
+            </p>
+            <p>
+              <b>BronchoSim</b> turns patient CT into photorealistic, breathing, fully annotated
+              bronchoscopy video. For each patient we extract the airway mesh and centerline tree, simulate
+              respiratory motion with a learned 4D-CT deformation model driven by real breathing traces,
+              and plan camera paths through the bronchial tree, including navigation corner cases such as
+              lateral wander, retract-and-readvance, wrong-branch recovery and lost-view recovery. A speed
+              model learned from EM-tracked clinical procedures re-times each path. We render the deforming
+              airway along every path, and a depth-conditioned video diffusion model, adapted to real
+              bronchoscopy, turns the render into realistic endoscopic video while keeping its geometry.
+              Every frame is paired with its 6-DoF camera pose and rendered metric depth.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="highlights">
+        <div class="highlight">
+          <div class="icon"><i class="fas fa-lungs"></i></div>
+          <strong>Patient-specific anatomy</strong>
+          <span>airways and centerlines from real CT</span>
+        </div>
+        <div class="highlight">
+          <div class="icon"><i class="fas fa-wind"></i></div>
+          <strong>Breathing motion</strong>
+          <span>4D-CT deformation from real respiratory traces</span>
+        </div>
+        <div class="highlight">
+          <div class="icon"><i class="fas fa-route"></i></div>
+          <strong>Clinically paced paths</strong>
+          <span>speed learned from EM-tracked procedures</span>
+        </div>
+        <div class="highlight">
+          <div class="icon"><i class="fas fa-exclamation-triangle"></i></div>
+          <strong>Corner cases</strong>
+          <span>wander, retreat, wrong branch, lost view</span>
+        </div>
+        <div class="highlight">
+          <div class="icon"><i class="fas fa-ruler-combined"></i></div>
+          <strong>Exact labels</strong>
+          <span>pose, metric depth and motion per frame</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Method -->
+  <section class="section">
+    <div class="container is-max-desktop">
+      <h2 class="title is-3 has-text-centered">How BronchoSim works</h2>
+      <p class="section-lead">
+        We keep geometry, motion and appearance separate. Geometry and motion come from patient anatomy
+        and clinical kinematics, so the labels are exact by construction. Only the appearance is
+        generated, and the generator is conditioned on the rendered geometry.
+      </p>
+
+      <figure class="overview-figure">
+        <img src="static/images/overview.jpg" onerror="this.closest('figure').hidden = true" alt="BronchoSim overview: pre-op CT and real patient videos feed a simulation pipeline (camera motion modeling, respiration modeling, renderer producing RGB, depth and normal renderings), which conditions a transfer model that turns noise into realistic bronchoscopy scenes." loading="lazy">
+        <figcaption>
+          <b>Overview.</b> From each patient's pre-operative CT, the simulation pipeline models camera
+          motion and respiration and renders the airway, with depth and surface normals. These renderings
+          condition a transfer model, adapted to real patient videos, that generates realistic
+          bronchoscopy scenes.
+        </figcaption>
+      </figure>
+
+      <div class="pipeline">
+        <div class="pipeline-stage">
+          <h3><span class="stage-tag">Geometry</span></h3>
+          <div class="pipeline-step">
+            <span class="step-num">1</span>
+            <div><strong>Patient airway.</strong> The airway surface mesh, a signed-distance field and the
+              branch-labelled centerline tree are extracted from each patient's CT.</div>
+          </div>
+          <div class="pipeline-step">
+            <span class="step-num">2</span>
+            <div><strong>Respiratory motion.</strong> A 4D-CT motion model (SeqX2Y) predicts phase-wise
+              deformation fields from the CT, driven by real respiratory traces. We warp the mesh vertices
+              over several breathing cycles and sample independent realizations per patient.</div>
+          </div>
+        </div>
+
+        <div class="pipeline-stage">
+          <h3><span class="stage-tag">Motion</span></h3>
+          <div class="pipeline-step">
+            <span class="step-num">3</span>
+            <div><strong>Path planning.</strong> Random start and goal branches are connected through the
+              bronchial tree. The path is splined with SDF-based collision smoothing, off-centerline
+              perturbation and inserted stops.</div>
+          </div>
+          <div class="pipeline-step">
+            <span class="step-num">4</span>
+            <div><strong>Learned pacing.</strong> A temporal CNN trained on EM-tracked clinical procedures
+              predicts per-frame speed from visual features and local airway geometry, then re-times the path.</div>
+          </div>
+          <div class="pipeline-step">
+            <span class="step-num">5</span>
+            <div><strong>Corner cases.</strong> Short clips are synthesized for four families of
+              navigation corner cases. Each frame is labelled
+              <i>forward / retract / left / right / up / down / stop</i>.</div>
+          </div>
+        </div>
+
+        <div class="pipeline-stage">
+          <h3><span class="stage-tag">Appearance</span></h3>
+          <div class="pipeline-step">
+            <span class="step-num">6</span>
+            <div><strong>Render.</strong> The camera path is carried along with the tissue motion, and the
+              deforming mesh is rendered at 30 fps with metric depth.</div>
+          </div>
+          <div class="pipeline-step">
+            <span class="step-num">7</span>
+            <div><strong>Depth-controlled video diffusion.</strong> We start from Cosmos-Transfer 2.5 (2B)
+              with the Cosmos-H-Surgical depth weights, then fine-tune a depth-control branch and a rank-32
+              DiT LoRA on 275 real clinical bronchoscopy clips. Depth-Anything-V2 depth of the render
+              drives generation, and long paths are generated in overlapping 81-frame windows. 14 appearance
+              prompts (mucus, blood-tinged secretions, inflamed mucosa, light tint and others) diversify
+              the look.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Interactive breathing airway -->
+  <section class="section hero is-light" id="breathing">
+    <div class="container is-max-desktop">
+      <h2 class="title is-3 has-text-centered">Explore a breathing airway</h2>
+      <p class="section-lead">
+        Each patient's airway deforms with a learned 4D-CT motion model driven by real breathing traces,
+        and the planned scope path (teal) moves with the tissue. Drag to rotate and scroll to zoom. Use the
+        dots to switch between patients.
+      </p>
+
+      <div id="breathing-viewer" class="bv" tabindex="0" aria-label="Interactive 3D breathing airway">
+        <div class="bv-stage">
+          <div class="bv-canvas">
+            <div class="bv-status">Loading 3D airway…</div>
+            <video class="bv-fallback" src="static/videos/breathing.mp4" muted loop playsinline preload="none"></video>
+          </div>
+          <div class="bv-legend">
+            Motion from rest
+            <div class="bar"></div>
+            <div class="ends"><span>0 mm</span><span data-bv="legend-max">6 mm</span></div>
+          </div>
+          <div class="bv-hint">drag: rotate · scroll: zoom · right-drag: pan</div>
+        </div>
+
+        <div class="bv-controls">
+          <button class="bv-btn" type="button" data-bv="play" aria-label="Pause"><i class="fas fa-pause"></i></button>
+          <div class="grow">
+            <span>Time</span>
+            <input type="range" data-bv="time" min="0" max="1" value="0" aria-label="Breathing time">
+            <span class="value" data-bv="time-label">0.0 s</span>
+          </div>
+          <div class="grow">
+            <span>Magnify</span>
+            <input type="range" data-bv="magnify" min="1" max="5" step="0.5" value="3" aria-label="Motion magnification">
+            <span class="value" data-bv="magnify-label">3×</span>
+          </div>
+          <label><input type="checkbox" data-bv="color" checked> Color by motion</label>
+          <label><input type="checkbox" data-bv="path" checked> Scope path</label>
+          <button class="bv-btn" type="button" data-bv="reset"><i class="fas fa-undo"></i> Reset view</button>
+        </div>
+
+        <div class="pager">
+          <button class="pager-arrow" type="button" data-bv="prev" aria-label="Previous airway"><i class="fas fa-chevron-left"></i></button>
+          <div class="bv-dots"></div>
+          <button class="pager-arrow" type="button" data-bv="next" aria-label="Next airway"><i class="fas fa-chevron-right"></i></button>
+        </div>
+        <p class="bv-caption" data-bv="caption"></p>
+      </div>
+      <p class="note has-text-centered">Displacements are magnified (3× by default) for visibility. Colors
+        show true displacement, and the rendered videos use true scale.</p>
+    </div>
+  </section>
+
+  <!-- Diversity -->
+  <section class="section" id="evaluation">
+    <div class="container is-max-desktop">
+      <h2 class="title is-3 has-text-centered">Diversity</h2>
+      <p class="section-lead">
+        BronchoSim covers the variety of real airways through patient-specific anatomy, and the variety
+        of their appearance through prompt-controlled generation.
+      </p>
+
+      <!-- Diversity -->
+      <div class="eval-block">
+        <h3><span class="eval-tag">Diversity</span>Many airways, many appearances</h3>
+        <p>
+          Anatomy varies with every patient's CT, and appearance varies with the prompt. Each clip below
+          uses a different appearance prompt: clear or frothy secretions, blood-tinged mucus, pale or
+          inflamed mucosa, cool scope light, and lens haze.
+        </p>
+        <div class="tile-grid is-4">
+          <figure class="vtile"><video poster="static/images/posters/diversity_00.jpg" muted loop playsinline preload="none" data-autoplay-inview><source src="static/videos/diversity/00.mp4" type="video/mp4"></video><figcaption>Clear mucus film, fine vessels</figcaption></figure>
+          <figure class="vtile"><video poster="static/images/posters/diversity_01.jpg" muted loop playsinline preload="none" data-autoplay-inview><source src="static/videos/diversity/01.mp4" type="video/mp4"></video><figcaption>Pale mucosa, cartilage rings</figcaption></figure>
+          <figure class="vtile"><video poster="static/images/posters/diversity_02.jpg" muted loop playsinline preload="none" data-autoplay-inview><source src="static/videos/diversity/02.mp4" type="video/mp4"></video><figcaption>Inflamed, congested vessels</figcaption></figure>
+          <figure class="vtile"><video poster="static/images/posters/diversity_03.jpg" muted loop playsinline preload="none" data-autoplay-inview><source src="static/videos/diversity/03.mp4" type="video/mp4"></video><figcaption>Frothy secretions</figcaption></figure>
+          <figure class="vtile"><video poster="static/images/posters/diversity_04.jpg" muted loop playsinline preload="none" data-autoplay-inview><source src="static/videos/diversity/04.mp4" type="video/mp4"></video><figcaption>Blood-tinged secretions</figcaption></figure>
+          <figure class="vtile"><video poster="static/images/posters/diversity_05.jpg" muted loop playsinline preload="none" data-autoplay-inview><source src="static/videos/diversity/05.mp4" type="video/mp4"></video><figcaption>Narrow distal segment</figcaption></figure>
+          <figure class="vtile"><video poster="static/images/posters/diversity_06.jpg" muted loop playsinline preload="none" data-autoplay-inview><source src="static/videos/diversity/06.mp4" type="video/mp4"></video><figcaption>Longitudinal folds</figcaption></figure>
+          <figure class="vtile"><video poster="static/images/posters/diversity_07.jpg" muted loop playsinline preload="none" data-autoplay-inview><source src="static/videos/diversity/07.mp4" type="video/mp4"></video><figcaption>Cool, blue-tinted light</figcaption></figure>
+          <figure class="vtile"><video poster="static/images/posters/diversity_08.jpg" muted loop playsinline preload="none" data-autoplay-inview><source src="static/videos/diversity/08.mp4" type="video/mp4"></video><figcaption>Granular, mottled mucosa</figcaption></figure>
+          <figure class="vtile"><video poster="static/images/posters/diversity_09.jpg" muted loop playsinline preload="none" data-autoplay-inview><source src="static/videos/diversity/09.mp4" type="video/mp4"></video><figcaption>Lens smear and haze</figcaption></figure>
+          <figure class="vtile"><video poster="static/images/posters/diversity_10.jpg" muted loop playsinline preload="none" data-autoplay-inview><source src="static/videos/diversity/10.mp4" type="video/mp4"></video><figcaption>Pebbled, nodular surface</figcaption></figure>
+          <figure class="vtile"><video poster="static/images/posters/diversity_11.jpg" muted loop playsinline preload="none" data-autoplay-inview><source src="static/videos/diversity/11.mp4" type="video/mp4"></video><figcaption>Wide lumen, bright near wall</figcaption></figure>
+        </div>
+        <p class="metric-note" style="margin-top: 1rem;">
+          Coverage of real appearance (recall, k = 3; the share of real frames that fall inside the
+          generated-frame manifold): raw render <b>0.00</b>, BronchoSim <b>0.18</b>,
+          and held-out real <b>0.44</b>. Recall is computed on InceptionV3 frame features of randomly drawn clips,
+          compared against real clinical clips. The render covers none of the real appearance, and BronchoSim
+          covers a substantial part of it, though less than real video.
+        </p>
+      </div>
+
+      <!-- TODO: zero-shot vs. BronchoSim-fine-tuned depth (DAv2, UniDepth, EndoStreamDepth, FlashDepth)
+           on public real bronchoscopy clips goes here; it needs the fine-tuned checkpoints. -->
+    </div>
+  </section>
+
+  <!-- Corner cases -->
+  <section class="section hero is-light">
+    <div class="container is-max-desktop">
+      <h2 class="title is-3 has-text-centered">Navigation corner cases</h2>
+      <p class="section-lead">
+        Clinical recordings mostly show smooth forward driving. Navigation policies fail in the rare
+        moments between. BronchoSim synthesizes those moments on purpose. There are four families, each
+        planned directly on the centerline tree and labelled per frame.
+      </p>
+
+      <div class="corner-grid">
+        <div class="corner-card">
+          <h3>Lateral wander</h3>
+          <p>The scope drifts off the centerline toward the airway wall while it advances, then corrects.</p>
+          <div class="panel-labels is-2"><span>Render</span><span class="is-ours">BronchoSim</span></div>
+          <video class="media-video" poster="static/images/posters/corner_lateral_wander.jpg" muted loop playsinline preload="metadata" data-autoplay-inview>
+            <source src="static/videos/corner_lateral_wander.mp4" type="video/mp4">
+          </video>
+        </div>
+
+        <div class="corner-card">
+          <h3>Retract &amp; re-advance</h3>
+          <p>The scope advances, backs out while still looking distally, and then advances to the same
+            target again. In some clips it retreats all the way.</p>
+          <div class="panel-labels is-2"><span>Render</span><span class="is-ours">BronchoSim</span></div>
+          <video class="media-video" poster="static/images/posters/corner_retract_readvance.jpg" muted loop playsinline preload="metadata" data-autoplay-inview>
+            <source src="static/videos/corner_retract_readvance.mp4" type="video/mp4">
+          </video>
+        </div>
+
+        <div class="corner-card">
+          <h3>Revisit bifurcation / wrong branch</h3>
+          <p>The scope enters one child branch, returns to the carina, and takes another. In asymmetric
+            clips it goes shallowly into the wrong branch and then fully into the correct one.</p>
+          <div class="panel-labels is-2"><span>Render</span><span class="is-ours">BronchoSim</span></div>
+          <video class="media-video" poster="static/images/posters/corner_revisit_bif.jpg" muted loop playsinline preload="metadata" data-autoplay-inview>
+            <source src="static/videos/corner_revisit_bif.mp4" type="video/mp4">
+          </video>
+        </div>
+
+        <div class="corner-card">
+          <h3>Lost &amp; recover</h3>
+          <p>A large, sudden pose perturbation at a random moment points the scope at the wall. A smooth
+            correction arc then brings it back to the lumen.</p>
+          <div class="panel-labels is-2"><span>Render</span><span class="is-ours">BronchoSim</span></div>
+          <video class="media-video" poster="static/images/posters/corner_lost_recover.jpg" muted loop playsinline preload="metadata" data-autoplay-inview>
+            <source src="static/videos/corner_lost_recover.mp4" type="video/mp4">
+          </video>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Autonomous navigation -->
+  <section class="section" id="autodrive">
+    <div class="container is-max-desktop">
+      <h2 class="title is-3 has-text-centered">Autonomous navigation</h2>
+      <p class="section-lead">
+        Select a target branch on the airway map. A route is planned through the bronchial tree, and a learned
+        navigation policy then drives the scope to the target on its own. The map shows the remaining route
+        (grey), the path driven so far (blue) and the scope's current position (orange). Next to it are the
+        live endoscopic view and the motion command and speed the policy issues at every step. Each video
+        shows two runs to different targets.
+      </p>
+      <!-- TODO: state what the policy was trained on (e.g. BronchoSim videos + poses) and in which environment it runs -->
+      <div class="drive-videos">
+        <video class="media-video drive-video" poster="static/images/posters/drive_2.jpg" muted loop playsinline preload="metadata" data-autoplay-inview>
+          <source src="static/videos/drive/drive_2.mp4" type="video/mp4">
+        </video>
+        <video class="media-video drive-video" poster="static/images/posters/drive_3.jpg" muted loop playsinline preload="metadata" data-autoplay-inview>
+          <source src="static/videos/drive/drive_3.mp4" type="video/mp4">
+        </video>
+      </div>
+    </div>
+  </section>
+
+  <!-- Sample contents -->
+  <section class="section hero is-light">
+    <div class="container is-max-desktop">
+      <h2 class="title is-3 has-text-centered">What every sample contains</h2>
+      <div class="columns is-centered">
+        <div class="column is-8">
+          <ul class="annotation-list content">
+            <li><strong>Generated video</strong>, 480×480, frame-aligned with the render</li>
+            <li><strong>Geometric render</strong> of the deforming airway, 200×200 at 30 fps</li>
+            <li><strong>6-DoF camera pose</strong> per frame, both planned and breathing-deformed</li>
+            <li><strong>Metric depth</strong> rendered from the deformed mesh</li>
+            <li><strong>Airway context</strong> per frame: branch id, parent branch and airway generation</li>
+            <li><strong>Motion label</strong> per frame (forward / retract / turn / stop) and <strong>corner-case category</strong> for corner-case clips</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  </main>
+
+  <!-- BibTeX -->
+  <section class="section" id="BibTeX">
+    <div class="container is-max-desktop content">
+      <div class="bibtex-header">
+        <h2 class="title">BibTeX</h2>
+        <button class="copy-bibtex-btn" onclick="copyBibTeX()" title="Copy BibTeX to clipboard">
+          <i class="fas fa-copy"></i>
+          <span class="copy-text">Copy</span>
+        </button>
+      </div>
+      <!-- TODO: replace with the final citation -->
+      <pre id="bibtex-code"><code>@misc{shu2026bronchosim,
+  title  = {BronchoSim: Patient-Specific, Breathing, Photorealistic Bronchoscopy Video at Scale},
+  author = {Shu, Hongchao},
+  year   = {2026},
+  note   = {Project page}
+}</code></pre>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="columns is-centered">
+        <div class="column is-8">
+          <div class="content">
+            <p>
+              This page was built using the <a href="https://github.com/eliahuhorwitz/Academic-project-page-template" target="_blank">Academic Project Page Template</a> which was adopted from the <a href="https://nerfies.github.io" target="_blank">Nerfies</a> project page.
+              You are free to borrow the source code of this website, we just ask that you link back to this page in the footer. <br> This website is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/" target="_blank">Creative
+              Commons Attribution-ShareAlike 4.0 International License</a>.
+            </p>
+            <p>
+              The 3D viewer uses <a href="https://threejs.org" target="_blank">three.js</a>.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>

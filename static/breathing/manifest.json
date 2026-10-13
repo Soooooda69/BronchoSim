@@ -1,0 +1,148 @@
+{
+ "cases": [
+  {
+   "case": "024",
+   "traj": "18",
+   "traj_frames": 1137,
+   "vertices": 6980,
+   "faces": 14000,
+   "path_points": 240,
+   "cycles": 2,
+   "phases": 9,
+   "cycle_frames": [
+    88,
+    88
+   ],
+   "fps": 30,
+   "pos_scale": 0.0038038364941013255,
+   "disp_scale": 0.10020915418863297,
+   "extent_mm": [
+    209.8,
+    161.4,
+    218.0
+   ],
+   "disp_p99_mm": 7.55,
+   "bytes": 504720
+  },
+  {
+   "case": "031",
+   "traj": "1",
+   "traj_frames": 1829,
+   "vertices": 7002,
+   "faces": 14000,
+   "path_points": 240,
+   "cycles": 2,
+   "phases": 9,
+   "cycle_frames": [
+    44,
+    38
+   ],
+   "fps": 30,
+   "pos_scale": 0.00392236955981516,
+   "disp_scale": 0.09202755987644196,
+   "extent_mm": [
+    163.4,
+    92.0,
+    222.2
+   ],
+   "disp_p99_mm": 6.98,
+   "bytes": 506040
+  },
+  {
+   "case": "052",
+   "traj": "1",
+   "traj_frames": 1921,
+   "vertices": 6984,
+   "faces": 14000,
+   "path_points": 240,
+   "cycles": 2,
+   "phases": 9,
+   "cycle_frames": [
+    63,
+    77
+   ],
+   "fps": 30,
+   "pos_scale": 0.003612017737581307,
+   "disp_scale": 0.06453002244234085,
+   "extent_mm": [
+    175.4,
+    135.7,
+    207.9
+   ],
+   "disp_p99_mm": 5.54,
+   "bytes": 504960
+  },
+  {
+   "case": "063",
+   "traj": "1",
+   "traj_frames": 1529,
+   "vertices": 6996,
+   "faces": 14000,
+   "path_points": 240,
+   "cycles": 2,
+   "phases": 9,
+   "cycle_frames": [
+    47,
+    49
+   ],
+   "fps": 30,
+   "pos_scale": 0.00467356302161836,
+   "disp_scale": 0.06053149700164795,
+   "extent_mm": [
+    216.2,
+    140.6,
+    280.3
+   ],
+   "disp_p99_mm": 5.22,
+   "bytes": 505680
+  },
+  {
+   "case": "083",
+   "traj": "1",
+   "traj_frames": 1241,
+   "vertices": 6966,
+   "faces": 13999,
+   "path_points": 240,
+   "cycles": 2,
+   "phases": 9,
+   "cycle_frames": [
+    44,
+    50
+   ],
+   "fps": 30,
+   "pos_scale": 0.003722475277971984,
+   "disp_scale": 0.09885580837726593,
+   "extent_mm": [
+    174.0,
+    154.6,
+    195.3
+   ],
+   "disp_p99_mm": 8.1,
+   "bytes": 503874
+  },
+  {
+   "case": "101",
+   "traj": "1",
+   "traj_frames": 1397,
+   "vertices": 6958,
+   "faces": 14000,
+   "path_points": 240,
+   "cycles": 2,
+   "phases": 9,
+   "cycle_frames": [
+    72,
+    64
+   ],
+   "fps": 30,
+   "pos_scale": 0.0044680543627472575,
+   "disp_scale": 0.08710630238056183,
+   "extent_mm": [
+    217.8,
+    146.5,
+    247.6
+   ],
+   "disp_p99_mm": 6.48,
+   "bytes": 503400
+  }
+ ]
+}
