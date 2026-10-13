@@ -440,8 +440,6 @@
         </p>
       </div>
 
-      <!-- TODO: zero-shot vs. BronchoSim-fine-tuned depth (DAv2, UniDepth, EndoStreamDepth, FlashDepth)
-           on public real bronchoscopy clips goes here; it needs the fine-tuned checkpoints. -->
     </div>
   </section>
 
@@ -498,8 +496,49 @@
     </div>
   </section>
 
+  <!-- Fine-tuned depth -->
+  <section class="section" id="depth">
+    <div class="container is-max-desktop">
+      <h2 class="title is-3 has-text-centered">Depth models fine-tuned on BronchoSim</h2>
+      <p class="section-lead">
+        BronchoSim pairs every frame with exact metric depth. We fine-tune four monocular and video depth
+        models on it and run them on real bronchoscopy. Each column shows one model on the same real clip,
+        zero-shot (top) and after fine-tuning on BronchoSim (bottom).
+      </p>
+      <!-- TODO: add the comparison videos. For each real clip, replace each placeholder with a video,
+           all frame-aligned and the same length:
+             static/videos/depth/<clip>/input.mp4
+             static/videos/depth/<clip>/<model>_<setting>.mp4
+               model   = dav2 | unidepth | endostreamdepth | flashdepth
+               setting = zeroshot | finetuned
+           e.g. <video class="depth-video" muted loop playsinline preload="metadata" data-autoplay-inview>
+                  <source src="static/videos/depth/clip1/dav2_finetuned.mp4" type="video/mp4"></video>
+           More clips can be paged with dots, like the paired rows at the top. -->
+      <div class="depth-compare">
+        <div class="depth-head"></div>
+        <div class="depth-head">Depth-Anything-V2</div>
+        <div class="depth-head">UniDepth</div>
+        <div class="depth-head">EndoStreamDepth</div>
+        <div class="depth-head">FlashDepth</div>
+        <div class="depth-slot depth-input is-pending" data-setting="input">
+          <span class="depth-badge">Real input</span>
+          <span class="depth-pending">Real bronchoscopy clip<br><small>video coming soon</small></span>
+        </div>
+          <div class="depth-slot is-pending" data-model="dav2" data-setting="zeroshot"><span class="depth-badge">Zero-shot</span><span class="depth-pending">Depth-Anything-V2<br><small>video coming soon</small></span></div>
+          <div class="depth-slot is-pending" data-model="unidepth" data-setting="zeroshot"><span class="depth-badge">Zero-shot</span><span class="depth-pending">UniDepth<br><small>video coming soon</small></span></div>
+          <div class="depth-slot is-pending" data-model="endostreamdepth" data-setting="zeroshot"><span class="depth-badge">Zero-shot</span><span class="depth-pending">EndoStreamDepth<br><small>video coming soon</small></span></div>
+          <div class="depth-slot is-pending" data-model="flashdepth" data-setting="zeroshot"><span class="depth-badge">Zero-shot</span><span class="depth-pending">FlashDepth<br><small>video coming soon</small></span></div>
+          <div class="depth-slot is-pending" data-model="dav2" data-setting="finetuned"><span class="depth-badge is-ours">Fine-tuned</span><span class="depth-pending">Depth-Anything-V2<br><small>video coming soon</small></span></div>
+          <div class="depth-slot is-pending" data-model="unidepth" data-setting="finetuned"><span class="depth-badge is-ours">Fine-tuned</span><span class="depth-pending">UniDepth<br><small>video coming soon</small></span></div>
+          <div class="depth-slot is-pending" data-model="endostreamdepth" data-setting="finetuned"><span class="depth-badge is-ours">Fine-tuned</span><span class="depth-pending">EndoStreamDepth<br><small>video coming soon</small></span></div>
+          <div class="depth-slot is-pending" data-model="flashdepth" data-setting="finetuned"><span class="depth-badge is-ours">Fine-tuned</span><span class="depth-pending">FlashDepth<br><small>video coming soon</small></span></div>
+      </div>
+      <p class="video-caption">Depth is colour-coded per frame, near to far, with the same colour map for every model.</p>
+    </div>
+  </section>
+
   <!-- Autonomous navigation -->
-  <section class="section" id="autodrive">
+  <section class="section hero is-light" id="autodrive">
     <div class="container is-max-desktop">
       <h2 class="title is-3 has-text-centered">Autonomous navigation</h2>
       <p class="section-lead">
@@ -522,7 +561,7 @@
   </section>
 
   <!-- Sample contents -->
-  <section class="section hero is-light">
+  <section class="section">
     <div class="container is-max-desktop">
       <h2 class="title is-3 has-text-centered">What every sample contains</h2>
       <div class="columns is-centered">
@@ -543,7 +582,7 @@
   </main>
 
   <!-- BibTeX -->
-  <section class="section" id="BibTeX">
+  <section class="section hero is-light" id="BibTeX">
     <div class="container is-max-desktop content">
       <div class="bibtex-header">
         <h2 class="title">BibTeX</h2>
