@@ -59,7 +59,7 @@
 
   <link rel="stylesheet" href="static/css/bulma.min.css">
   <link rel="stylesheet" href="static/css/index.css">
-  <link rel="stylesheet" href="static/css/bronchosim.css?v=15f98912">
+  <link rel="stylesheet" href="static/css/bronchosim.css?v=f3d995fd">
 
   <link rel="preload" href="static/css/bulma-carousel.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
   <link rel="preload" href="static/css/bulma-slider.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
@@ -79,7 +79,7 @@
   <script defer src="static/js/bulma-carousel.min.js"></script>
   <script defer src="static/js/bulma-slider.min.js"></script>
   <script defer src="static/js/index.js"></script>
-  <script defer src="static/js/bronchosim.js?v=15f98912"></script>
+  <script defer src="static/js/bronchosim.js?v=f3d995fd"></script>
 
   <!-- three.js for the interactive breathing airway -->
   <script type="importmap">
@@ -439,61 +439,8 @@
     </div>
   </section>
 
-  <!-- Corner cases -->
-  <section class="section hero is-light">
-    <div class="container is-max-desktop">
-      <h2 class="title is-3 has-text-centered">Navigation corner cases</h2>
-      <p class="section-lead">
-        Clinical recordings mostly show smooth forward driving. Navigation policies fail in the rare
-        moments between. BronchoSim synthesizes those moments on purpose. There are four families, each
-        planned directly on the centerline tree and labelled per frame.
-      </p>
-
-      <div class="corner-grid">
-        <div class="corner-card">
-          <h3>Lateral wander</h3>
-          <p>The scope drifts off the centerline toward the airway wall while it advances, then corrects.</p>
-          <div class="panel-labels is-2"><span>Render</span><span class="is-ours">BronchoSim</span></div>
-          <video class="media-video" poster="static/images/posters/corner_lateral_wander.jpg" muted loop playsinline preload="metadata" data-autoplay-inview>
-            <source src="static/videos/corner_lateral_wander.mp4" type="video/mp4">
-          </video>
-        </div>
-
-        <div class="corner-card">
-          <h3>Retract &amp; re-advance</h3>
-          <p>The scope advances, backs out while still looking distally, and then advances to the same
-            target again. In some clips it retreats all the way.</p>
-          <div class="panel-labels is-2"><span>Render</span><span class="is-ours">BronchoSim</span></div>
-          <video class="media-video" poster="static/images/posters/corner_retract_readvance.jpg" muted loop playsinline preload="metadata" data-autoplay-inview>
-            <source src="static/videos/corner_retract_readvance.mp4" type="video/mp4">
-          </video>
-        </div>
-
-        <div class="corner-card">
-          <h3>Revisit bifurcation / wrong branch</h3>
-          <p>The scope enters one child branch, returns to the carina, and takes another. In asymmetric
-            clips it goes shallowly into the wrong branch and then fully into the correct one.</p>
-          <div class="panel-labels is-2"><span>Render</span><span class="is-ours">BronchoSim</span></div>
-          <video class="media-video" poster="static/images/posters/corner_revisit_bif.jpg" muted loop playsinline preload="metadata" data-autoplay-inview>
-            <source src="static/videos/corner_revisit_bif.mp4" type="video/mp4">
-          </video>
-        </div>
-
-        <div class="corner-card">
-          <h3>Lost &amp; recover</h3>
-          <p>A large, sudden pose perturbation at a random moment points the scope at the wall. A smooth
-            correction arc then brings it back to the lumen.</p>
-          <div class="panel-labels is-2"><span>Render</span><span class="is-ours">BronchoSim</span></div>
-          <video class="media-video" poster="static/images/posters/corner_lost_recover.jpg" muted loop playsinline preload="metadata" data-autoplay-inview>
-            <source src="static/videos/corner_lost_recover.mp4" type="video/mp4">
-          </video>
-        </div>
-      </div>
-    </div>
-  </section>
-
   <!-- Fine-tuned depth -->
-  <section class="section" id="depth">
+  <section class="section hero is-light" id="depth">
     <div class="container is-max-desktop">
       <h2 class="title is-3 has-text-centered">Depth models fine-tuned on BronchoSim</h2>
       <p class="section-lead">
@@ -639,6 +586,59 @@
       <p class="video-caption">Eight clips from four patients, none of whom BronchoSim was generated from. Depth is
         colour-coded per frame, near (dark) to far (bright), on the model's own range with the same colour map for
         every model, so the videos compare shape, not absolute scale. Played in real time.</p>
+    </div>
+  </section>
+
+  <!-- Corner cases -->
+  <section class="section" id="corner-cases">
+    <div class="container is-max-widescreen">
+      <h2 class="title is-3 has-text-centered">Navigation corner cases</h2>
+      <p class="section-lead">
+        Clinical recordings mostly show smooth forward driving. Navigation policies fail in the rare
+        moments between. BronchoSim synthesizes those moments on purpose. There are four families, each
+        planned directly on the centerline tree and labelled per frame.
+      </p>
+
+      <div class="corner-grid">
+        <div class="corner-card">
+          <h3>Lateral wander</h3>
+          <p>The scope drifts off the centerline toward the airway wall while it advances, then corrects.</p>
+          <div class="panel-labels is-2"><span>Render</span><span class="is-ours">BronchoSim</span></div>
+          <video class="media-video" poster="static/images/posters/corner_lateral_wander.jpg" muted loop playsinline preload="metadata" data-autoplay-inview>
+            <source src="static/videos/corner_lateral_wander.mp4" type="video/mp4">
+          </video>
+        </div>
+
+        <div class="corner-card">
+          <h3>Retract &amp; re-advance</h3>
+          <p>The scope advances, backs out while still looking distally, and then advances to the same
+            target again. In some clips it retreats all the way.</p>
+          <div class="panel-labels is-2"><span>Render</span><span class="is-ours">BronchoSim</span></div>
+          <video class="media-video" poster="static/images/posters/corner_retract_readvance.jpg" muted loop playsinline preload="metadata" data-autoplay-inview>
+            <source src="static/videos/corner_retract_readvance.mp4" type="video/mp4">
+          </video>
+        </div>
+
+        <div class="corner-card">
+          <h3>Revisit bifurcation / wrong branch</h3>
+          <p>The scope enters one child branch, returns to the carina, and takes another. In asymmetric
+            clips it goes shallowly into the wrong branch and then fully into the correct one.</p>
+          <div class="panel-labels is-2"><span>Render</span><span class="is-ours">BronchoSim</span></div>
+          <video class="media-video" poster="static/images/posters/corner_revisit_bif.jpg" muted loop playsinline preload="metadata" data-autoplay-inview>
+            <source src="static/videos/corner_revisit_bif.mp4" type="video/mp4">
+          </video>
+        </div>
+
+        <div class="corner-card">
+          <h3>Lost &amp; recover</h3>
+          <p>A large, sudden pose perturbation at a random moment points the scope at the wall. A smooth
+            correction arc then brings it back to the lumen.</p>
+          <div class="panel-labels is-2"><span>Render</span><span class="is-ours">BronchoSim</span></div>
+          <video class="media-video" poster="static/images/posters/corner_lost_recover.jpg" muted loop playsinline preload="metadata" data-autoplay-inview>
+            <source src="static/videos/corner_lost_recover.mp4" type="video/mp4">
+          </video>
+        </div>
+      </div>
     </div>
   </section>
 

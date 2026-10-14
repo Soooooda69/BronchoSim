@@ -134,25 +134,30 @@
 
 .corner-grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 2rem 1.75rem;
+  grid-template-columns: repeat(4, 1fr);       /* one row of four on desktop */
+  gap: 1.25rem 1rem;
 }
+
+/* text grows, so the four videos line up along the bottom of the row */
+.corner-card { display: flex; flex-direction: column; }
 
 .corner-card h3 {
   font-family: 'Inter', sans-serif;
   font-weight: 700;
-  font-size: 1.1rem;
+  font-size: 0.98rem;
   color: var(--text-primary);
-  margin-bottom: 0.3rem;
+  margin-bottom: 0.25rem;
 }
 
 .corner-card p {
-  font-size: 0.93rem;
-  line-height: 1.55;
+  flex: 1;
+  font-size: 0.82rem;
+  line-height: 1.45;
   color: var(--text-secondary);
-  margin-bottom: 0.75rem;
-  min-height: 4.4em;
+  margin-bottom: 0.5rem;
 }
+
+.corner-card .panel-labels { font-size: 0.75rem; margin-bottom: 0.25rem; }
 
 .corner-card .count {
   font-size: 0.8rem;
@@ -499,6 +504,7 @@
   .highlights { grid-template-columns: repeat(3, 1fr); }
   .pipeline { grid-template-columns: 1fr; }
   .tile-grid.is-4 { grid-template-columns: repeat(3, 1fr); }
+  .corner-grid { grid-template-columns: repeat(2, 1fr); }
 }
 
 @media screen and (max-width: 768px) {
@@ -507,8 +513,7 @@
   .realism-row { grid-template-columns: repeat(3, 1fr); }
   .realism-row .row-label { grid-column: 1 / -1; }
   .bv-legend { width: 7.5rem; right: 0.5rem; top: 0.5rem; }
-  .corner-grid { grid-template-columns: 1fr; }
-  .corner-card p { min-height: 0; }
+  .corner-grid { grid-template-columns: 1fr; gap: 1rem; }
   .publication-subtitle { font-size: 1.1rem; }
   .content.has-text-justified { text-align: left !important; }
   .panel-labels { font-size: 0.72rem; }
