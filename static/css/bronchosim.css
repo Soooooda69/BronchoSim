@@ -547,10 +547,14 @@
 
 .depth-compare {
   display: grid;
-  grid-template-columns: 1.6fr repeat(4, 1fr);
+  grid-template-columns: 2fr repeat(4, 1fr);      /* input spans 2 rows: 2fr keeps it ~square, uncropped */
   gap: 6px;
   align-items: stretch;
 }
+
+/* .depth-compare's display: grid comes after .gallery-page's display: none, so
+   the pager's hiding needs the more specific selector to win. */
+.depth-compare.gallery-page:not(.is-active) { display: none; }
 
 .depth-head {
   font-size: 0.85rem;
@@ -612,7 +616,7 @@
 @media screen and (max-width: 768px) {
   .depth-compare { grid-template-columns: repeat(4, 1fr); }
   .depth-compare > .depth-head:first-child { display: none; }
-  .depth-input { grid-column: 1 / -1; grid-row: auto; aspect-ratio: 16 / 9; order: -1; }
+  .depth-input { grid-column: 1 / -1; grid-row: auto; aspect-ratio: 1 / 1; width: min(100%, 280px); justify-self: center; order: -1; }
   .depth-head { font-size: 0.62rem; overflow-wrap: anywhere; }
   .depth-slot:not(.depth-input) .depth-pending { display: none; }
   .depth-badge { font-size: 0.56rem; left: 3px; top: 3px; padding: 0.05rem 0.35rem; }
