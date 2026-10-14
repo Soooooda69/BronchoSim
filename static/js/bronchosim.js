@@ -45,7 +45,23 @@ function setupPager(root) {
   show(0);
 }
 
+// Videos in a [data-sync-group] are frame-aligned files, but each <video> starts,
+// buffers and loops on its own clock. Snap the others to the [data-sync-master]
+// whenever they drift by more than a few frames.
+function setupSyncGroup(group) {
+  const master = group.querySelector('video[data-sync-master]');
+  if (!master) return;
+  const others = [...group.querySelectorAll('video')].filter(v => v !== master);
+  const sync = () => others.forEach(v => {
+    if (v.readyState >= 1 && Math.abs(v.currentTime - master.currentTime) > 0.1) {
+      v.currentTime = master.currentTime;
+    }
+  });
+  ['play', 'seeked', 'timeupdate'].forEach(e => master.addEventListener(e, sync));
+}
+
 document.addEventListener('DOMContentLoaded', function () {
   document.querySelectorAll('[data-pager-root]').forEach(setupPager);
+  document.querySelectorAll('[data-sync-group]').forEach(setupSyncGroup);
   setupAutoplayInView();
 });

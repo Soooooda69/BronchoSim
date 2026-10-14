@@ -59,7 +59,7 @@
 
   <link rel="stylesheet" href="static/css/bulma.min.css">
   <link rel="stylesheet" href="static/css/index.css">
-  <link rel="stylesheet" href="static/css/bronchosim.css?v=71eefbca">
+  <link rel="stylesheet" href="static/css/bronchosim.css?v=38734018">
 
   <link rel="preload" href="static/css/bulma-carousel.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
   <link rel="preload" href="static/css/bulma-slider.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
@@ -79,7 +79,7 @@
   <script defer src="static/js/bulma-carousel.min.js"></script>
   <script defer src="static/js/bulma-slider.min.js"></script>
   <script defer src="static/js/index.js"></script>
-  <script defer src="static/js/bronchosim.js?v=71eefbca"></script>
+  <script defer src="static/js/bronchosim.js?v=38734018"></script>
 
   <!-- three.js for the interactive breathing airway -->
   <script type="importmap">
@@ -501,35 +501,144 @@
         models on it and run them on real bronchoscopy. Each column shows one model on the same real clip,
         zero-shot (top) and after fine-tuning on BronchoSim (bottom).
       </p>
-      <!-- TODO: add the comparison videos. For each real clip, replace each placeholder with a video,
-           all frame-aligned and the same length:
-             static/videos/depth/<clip>/input.mp4
-             static/videos/depth/<clip>/<model>_<setting>.mp4
-               model   = dav2 | unidepth | endostreamdepth | flashdepth
-               setting = zeroshot | finetuned
-           e.g. <video class="depth-video" muted loop playsinline preload="metadata" data-autoplay-inview>
-                  <source src="static/videos/depth/clip1/dav2_finetuned.mp4" type="video/mp4"></video>
-           More clips can be paged with dots, like the paired rows at the top. -->
-      <div class="depth-compare">
-        <div class="depth-head"></div>
-        <div class="depth-head">Depth-Anything-V2</div>
-        <div class="depth-head">UniDepth</div>
-        <div class="depth-head">EndoStreamDepth</div>
-        <div class="depth-head">FlashDepth</div>
-        <div class="depth-slot depth-input is-pending" data-setting="input">
-          <span class="depth-badge">Real input</span>
-          <span class="depth-pending">Real bronchoscopy clip<br><small>video coming soon</small></span>
+      <div data-pager-root>
+        <div class="depth-compare gallery-page" data-sync-group>
+          <div class="depth-head"></div>
+          <div class="depth-head">Depth-Anything-V2</div>
+          <div class="depth-head">UniDepth</div>
+          <div class="depth-head">EndoStreamDepth</div>
+          <div class="depth-head">FlashDepth</div>
+          <div class="depth-slot depth-input"><span class="depth-badge">Real input</span><video class="depth-video" poster="static/images/posters/depth_clip1_input.jpg" muted loop playsinline preload="none" data-autoplay-inview data-sync-master><source src="static/videos/depth/clip1/input.mp4" type="video/mp4"></video></div>
+          <div class="depth-slot"><span class="depth-badge">Zero-shot</span><video class="depth-video" poster="static/images/posters/depth_clip1_dav2_zeroshot.jpg" muted loop playsinline preload="none" data-autoplay-inview><source src="static/videos/depth/clip1/dav2_zeroshot.mp4" type="video/mp4"></video></div>
+          <div class="depth-slot"><span class="depth-badge">Zero-shot</span><video class="depth-video" poster="static/images/posters/depth_clip1_unidepth_zeroshot.jpg" muted loop playsinline preload="none" data-autoplay-inview><source src="static/videos/depth/clip1/unidepth_zeroshot.mp4" type="video/mp4"></video></div>
+          <div class="depth-slot"><span class="depth-badge">Zero-shot</span><video class="depth-video" poster="static/images/posters/depth_clip1_endostreamdepth_zeroshot.jpg" muted loop playsinline preload="none" data-autoplay-inview><source src="static/videos/depth/clip1/endostreamdepth_zeroshot.mp4" type="video/mp4"></video></div>
+          <div class="depth-slot"><span class="depth-badge">Zero-shot</span><video class="depth-video" poster="static/images/posters/depth_clip1_flashdepth_zeroshot.jpg" muted loop playsinline preload="none" data-autoplay-inview><source src="static/videos/depth/clip1/flashdepth_zeroshot.mp4" type="video/mp4"></video></div>
+          <div class="depth-slot"><span class="depth-badge is-ours">Fine-tuned</span><video class="depth-video" poster="static/images/posters/depth_clip1_dav2_finetuned.jpg" muted loop playsinline preload="none" data-autoplay-inview><source src="static/videos/depth/clip1/dav2_finetuned.mp4" type="video/mp4"></video></div>
+          <div class="depth-slot"><span class="depth-badge is-ours">Fine-tuned</span><video class="depth-video" poster="static/images/posters/depth_clip1_unidepth_finetuned.jpg" muted loop playsinline preload="none" data-autoplay-inview><source src="static/videos/depth/clip1/unidepth_finetuned.mp4" type="video/mp4"></video></div>
+          <div class="depth-slot"><span class="depth-badge is-ours">Fine-tuned</span><video class="depth-video" poster="static/images/posters/depth_clip1_endostreamdepth_finetuned.jpg" muted loop playsinline preload="none" data-autoplay-inview><source src="static/videos/depth/clip1/endostreamdepth_finetuned.mp4" type="video/mp4"></video></div>
+          <div class="depth-slot"><span class="depth-badge is-ours">Fine-tuned</span><video class="depth-video" poster="static/images/posters/depth_clip1_flashdepth_finetuned.jpg" muted loop playsinline preload="none" data-autoplay-inview><source src="static/videos/depth/clip1/flashdepth_finetuned.mp4" type="video/mp4"></video></div>
         </div>
-          <div class="depth-slot is-pending" data-model="dav2" data-setting="zeroshot"><span class="depth-badge">Zero-shot</span><span class="depth-pending">Depth-Anything-V2<br><small>video coming soon</small></span></div>
-          <div class="depth-slot is-pending" data-model="unidepth" data-setting="zeroshot"><span class="depth-badge">Zero-shot</span><span class="depth-pending">UniDepth<br><small>video coming soon</small></span></div>
-          <div class="depth-slot is-pending" data-model="endostreamdepth" data-setting="zeroshot"><span class="depth-badge">Zero-shot</span><span class="depth-pending">EndoStreamDepth<br><small>video coming soon</small></span></div>
-          <div class="depth-slot is-pending" data-model="flashdepth" data-setting="zeroshot"><span class="depth-badge">Zero-shot</span><span class="depth-pending">FlashDepth<br><small>video coming soon</small></span></div>
-          <div class="depth-slot is-pending" data-model="dav2" data-setting="finetuned"><span class="depth-badge is-ours">Fine-tuned</span><span class="depth-pending">Depth-Anything-V2<br><small>video coming soon</small></span></div>
-          <div class="depth-slot is-pending" data-model="unidepth" data-setting="finetuned"><span class="depth-badge is-ours">Fine-tuned</span><span class="depth-pending">UniDepth<br><small>video coming soon</small></span></div>
-          <div class="depth-slot is-pending" data-model="endostreamdepth" data-setting="finetuned"><span class="depth-badge is-ours">Fine-tuned</span><span class="depth-pending">EndoStreamDepth<br><small>video coming soon</small></span></div>
-          <div class="depth-slot is-pending" data-model="flashdepth" data-setting="finetuned"><span class="depth-badge is-ours">Fine-tuned</span><span class="depth-pending">FlashDepth<br><small>video coming soon</small></span></div>
+        <div class="depth-compare gallery-page" data-sync-group>
+          <div class="depth-head"></div>
+          <div class="depth-head">Depth-Anything-V2</div>
+          <div class="depth-head">UniDepth</div>
+          <div class="depth-head">EndoStreamDepth</div>
+          <div class="depth-head">FlashDepth</div>
+          <div class="depth-slot depth-input"><span class="depth-badge">Real input</span><video class="depth-video" poster="static/images/posters/depth_clip2_input.jpg" muted loop playsinline preload="none" data-autoplay-inview data-sync-master><source src="static/videos/depth/clip2/input.mp4" type="video/mp4"></video></div>
+          <div class="depth-slot"><span class="depth-badge">Zero-shot</span><video class="depth-video" poster="static/images/posters/depth_clip2_dav2_zeroshot.jpg" muted loop playsinline preload="none" data-autoplay-inview><source src="static/videos/depth/clip2/dav2_zeroshot.mp4" type="video/mp4"></video></div>
+          <div class="depth-slot"><span class="depth-badge">Zero-shot</span><video class="depth-video" poster="static/images/posters/depth_clip2_unidepth_zeroshot.jpg" muted loop playsinline preload="none" data-autoplay-inview><source src="static/videos/depth/clip2/unidepth_zeroshot.mp4" type="video/mp4"></video></div>
+          <div class="depth-slot"><span class="depth-badge">Zero-shot</span><video class="depth-video" poster="static/images/posters/depth_clip2_endostreamdepth_zeroshot.jpg" muted loop playsinline preload="none" data-autoplay-inview><source src="static/videos/depth/clip2/endostreamdepth_zeroshot.mp4" type="video/mp4"></video></div>
+          <div class="depth-slot"><span class="depth-badge">Zero-shot</span><video class="depth-video" poster="static/images/posters/depth_clip2_flashdepth_zeroshot.jpg" muted loop playsinline preload="none" data-autoplay-inview><source src="static/videos/depth/clip2/flashdepth_zeroshot.mp4" type="video/mp4"></video></div>
+          <div class="depth-slot"><span class="depth-badge is-ours">Fine-tuned</span><video class="depth-video" poster="static/images/posters/depth_clip2_dav2_finetuned.jpg" muted loop playsinline preload="none" data-autoplay-inview><source src="static/videos/depth/clip2/dav2_finetuned.mp4" type="video/mp4"></video></div>
+          <div class="depth-slot"><span class="depth-badge is-ours">Fine-tuned</span><video class="depth-video" poster="static/images/posters/depth_clip2_unidepth_finetuned.jpg" muted loop playsinline preload="none" data-autoplay-inview><source src="static/videos/depth/clip2/unidepth_finetuned.mp4" type="video/mp4"></video></div>
+          <div class="depth-slot"><span class="depth-badge is-ours">Fine-tuned</span><video class="depth-video" poster="static/images/posters/depth_clip2_endostreamdepth_finetuned.jpg" muted loop playsinline preload="none" data-autoplay-inview><source src="static/videos/depth/clip2/endostreamdepth_finetuned.mp4" type="video/mp4"></video></div>
+          <div class="depth-slot"><span class="depth-badge is-ours">Fine-tuned</span><video class="depth-video" poster="static/images/posters/depth_clip2_flashdepth_finetuned.jpg" muted loop playsinline preload="none" data-autoplay-inview><source src="static/videos/depth/clip2/flashdepth_finetuned.mp4" type="video/mp4"></video></div>
+        </div>
+        <div class="depth-compare gallery-page" data-sync-group>
+          <div class="depth-head"></div>
+          <div class="depth-head">Depth-Anything-V2</div>
+          <div class="depth-head">UniDepth</div>
+          <div class="depth-head">EndoStreamDepth</div>
+          <div class="depth-head">FlashDepth</div>
+          <div class="depth-slot depth-input"><span class="depth-badge">Real input</span><video class="depth-video" poster="static/images/posters/depth_clip3_input.jpg" muted loop playsinline preload="none" data-autoplay-inview data-sync-master><source src="static/videos/depth/clip3/input.mp4" type="video/mp4"></video></div>
+          <div class="depth-slot"><span class="depth-badge">Zero-shot</span><video class="depth-video" poster="static/images/posters/depth_clip3_dav2_zeroshot.jpg" muted loop playsinline preload="none" data-autoplay-inview><source src="static/videos/depth/clip3/dav2_zeroshot.mp4" type="video/mp4"></video></div>
+          <div class="depth-slot"><span class="depth-badge">Zero-shot</span><video class="depth-video" poster="static/images/posters/depth_clip3_unidepth_zeroshot.jpg" muted loop playsinline preload="none" data-autoplay-inview><source src="static/videos/depth/clip3/unidepth_zeroshot.mp4" type="video/mp4"></video></div>
+          <div class="depth-slot"><span class="depth-badge">Zero-shot</span><video class="depth-video" poster="static/images/posters/depth_clip3_endostreamdepth_zeroshot.jpg" muted loop playsinline preload="none" data-autoplay-inview><source src="static/videos/depth/clip3/endostreamdepth_zeroshot.mp4" type="video/mp4"></video></div>
+          <div class="depth-slot"><span class="depth-badge">Zero-shot</span><video class="depth-video" poster="static/images/posters/depth_clip3_flashdepth_zeroshot.jpg" muted loop playsinline preload="none" data-autoplay-inview><source src="static/videos/depth/clip3/flashdepth_zeroshot.mp4" type="video/mp4"></video></div>
+          <div class="depth-slot"><span class="depth-badge is-ours">Fine-tuned</span><video class="depth-video" poster="static/images/posters/depth_clip3_dav2_finetuned.jpg" muted loop playsinline preload="none" data-autoplay-inview><source src="static/videos/depth/clip3/dav2_finetuned.mp4" type="video/mp4"></video></div>
+          <div class="depth-slot"><span class="depth-badge is-ours">Fine-tuned</span><video class="depth-video" poster="static/images/posters/depth_clip3_unidepth_finetuned.jpg" muted loop playsinline preload="none" data-autoplay-inview><source src="static/videos/depth/clip3/unidepth_finetuned.mp4" type="video/mp4"></video></div>
+          <div class="depth-slot"><span class="depth-badge is-ours">Fine-tuned</span><video class="depth-video" poster="static/images/posters/depth_clip3_endostreamdepth_finetuned.jpg" muted loop playsinline preload="none" data-autoplay-inview><source src="static/videos/depth/clip3/endostreamdepth_finetuned.mp4" type="video/mp4"></video></div>
+          <div class="depth-slot"><span class="depth-badge is-ours">Fine-tuned</span><video class="depth-video" poster="static/images/posters/depth_clip3_flashdepth_finetuned.jpg" muted loop playsinline preload="none" data-autoplay-inview><source src="static/videos/depth/clip3/flashdepth_finetuned.mp4" type="video/mp4"></video></div>
+        </div>
+        <div class="depth-compare gallery-page" data-sync-group>
+          <div class="depth-head"></div>
+          <div class="depth-head">Depth-Anything-V2</div>
+          <div class="depth-head">UniDepth</div>
+          <div class="depth-head">EndoStreamDepth</div>
+          <div class="depth-head">FlashDepth</div>
+          <div class="depth-slot depth-input"><span class="depth-badge">Real input</span><video class="depth-video" poster="static/images/posters/depth_clip4_input.jpg" muted loop playsinline preload="none" data-autoplay-inview data-sync-master><source src="static/videos/depth/clip4/input.mp4" type="video/mp4"></video></div>
+          <div class="depth-slot"><span class="depth-badge">Zero-shot</span><video class="depth-video" poster="static/images/posters/depth_clip4_dav2_zeroshot.jpg" muted loop playsinline preload="none" data-autoplay-inview><source src="static/videos/depth/clip4/dav2_zeroshot.mp4" type="video/mp4"></video></div>
+          <div class="depth-slot"><span class="depth-badge">Zero-shot</span><video class="depth-video" poster="static/images/posters/depth_clip4_unidepth_zeroshot.jpg" muted loop playsinline preload="none" data-autoplay-inview><source src="static/videos/depth/clip4/unidepth_zeroshot.mp4" type="video/mp4"></video></div>
+          <div class="depth-slot"><span class="depth-badge">Zero-shot</span><video class="depth-video" poster="static/images/posters/depth_clip4_endostreamdepth_zeroshot.jpg" muted loop playsinline preload="none" data-autoplay-inview><source src="static/videos/depth/clip4/endostreamdepth_zeroshot.mp4" type="video/mp4"></video></div>
+          <div class="depth-slot"><span class="depth-badge">Zero-shot</span><video class="depth-video" poster="static/images/posters/depth_clip4_flashdepth_zeroshot.jpg" muted loop playsinline preload="none" data-autoplay-inview><source src="static/videos/depth/clip4/flashdepth_zeroshot.mp4" type="video/mp4"></video></div>
+          <div class="depth-slot"><span class="depth-badge is-ours">Fine-tuned</span><video class="depth-video" poster="static/images/posters/depth_clip4_dav2_finetuned.jpg" muted loop playsinline preload="none" data-autoplay-inview><source src="static/videos/depth/clip4/dav2_finetuned.mp4" type="video/mp4"></video></div>
+          <div class="depth-slot"><span class="depth-badge is-ours">Fine-tuned</span><video class="depth-video" poster="static/images/posters/depth_clip4_unidepth_finetuned.jpg" muted loop playsinline preload="none" data-autoplay-inview><source src="static/videos/depth/clip4/unidepth_finetuned.mp4" type="video/mp4"></video></div>
+          <div class="depth-slot"><span class="depth-badge is-ours">Fine-tuned</span><video class="depth-video" poster="static/images/posters/depth_clip4_endostreamdepth_finetuned.jpg" muted loop playsinline preload="none" data-autoplay-inview><source src="static/videos/depth/clip4/endostreamdepth_finetuned.mp4" type="video/mp4"></video></div>
+          <div class="depth-slot"><span class="depth-badge is-ours">Fine-tuned</span><video class="depth-video" poster="static/images/posters/depth_clip4_flashdepth_finetuned.jpg" muted loop playsinline preload="none" data-autoplay-inview><source src="static/videos/depth/clip4/flashdepth_finetuned.mp4" type="video/mp4"></video></div>
+        </div>
+        <div class="depth-compare gallery-page" data-sync-group>
+          <div class="depth-head"></div>
+          <div class="depth-head">Depth-Anything-V2</div>
+          <div class="depth-head">UniDepth</div>
+          <div class="depth-head">EndoStreamDepth</div>
+          <div class="depth-head">FlashDepth</div>
+          <div class="depth-slot depth-input"><span class="depth-badge">Real input</span><video class="depth-video" poster="static/images/posters/depth_clip5_input.jpg" muted loop playsinline preload="none" data-autoplay-inview data-sync-master><source src="static/videos/depth/clip5/input.mp4" type="video/mp4"></video></div>
+          <div class="depth-slot"><span class="depth-badge">Zero-shot</span><video class="depth-video" poster="static/images/posters/depth_clip5_dav2_zeroshot.jpg" muted loop playsinline preload="none" data-autoplay-inview><source src="static/videos/depth/clip5/dav2_zeroshot.mp4" type="video/mp4"></video></div>
+          <div class="depth-slot"><span class="depth-badge">Zero-shot</span><video class="depth-video" poster="static/images/posters/depth_clip5_unidepth_zeroshot.jpg" muted loop playsinline preload="none" data-autoplay-inview><source src="static/videos/depth/clip5/unidepth_zeroshot.mp4" type="video/mp4"></video></div>
+          <div class="depth-slot"><span class="depth-badge">Zero-shot</span><video class="depth-video" poster="static/images/posters/depth_clip5_endostreamdepth_zeroshot.jpg" muted loop playsinline preload="none" data-autoplay-inview><source src="static/videos/depth/clip5/endostreamdepth_zeroshot.mp4" type="video/mp4"></video></div>
+          <div class="depth-slot"><span class="depth-badge">Zero-shot</span><video class="depth-video" poster="static/images/posters/depth_clip5_flashdepth_zeroshot.jpg" muted loop playsinline preload="none" data-autoplay-inview><source src="static/videos/depth/clip5/flashdepth_zeroshot.mp4" type="video/mp4"></video></div>
+          <div class="depth-slot"><span class="depth-badge is-ours">Fine-tuned</span><video class="depth-video" poster="static/images/posters/depth_clip5_dav2_finetuned.jpg" muted loop playsinline preload="none" data-autoplay-inview><source src="static/videos/depth/clip5/dav2_finetuned.mp4" type="video/mp4"></video></div>
+          <div class="depth-slot"><span class="depth-badge is-ours">Fine-tuned</span><video class="depth-video" poster="static/images/posters/depth_clip5_unidepth_finetuned.jpg" muted loop playsinline preload="none" data-autoplay-inview><source src="static/videos/depth/clip5/unidepth_finetuned.mp4" type="video/mp4"></video></div>
+          <div class="depth-slot"><span class="depth-badge is-ours">Fine-tuned</span><video class="depth-video" poster="static/images/posters/depth_clip5_endostreamdepth_finetuned.jpg" muted loop playsinline preload="none" data-autoplay-inview><source src="static/videos/depth/clip5/endostreamdepth_finetuned.mp4" type="video/mp4"></video></div>
+          <div class="depth-slot"><span class="depth-badge is-ours">Fine-tuned</span><video class="depth-video" poster="static/images/posters/depth_clip5_flashdepth_finetuned.jpg" muted loop playsinline preload="none" data-autoplay-inview><source src="static/videos/depth/clip5/flashdepth_finetuned.mp4" type="video/mp4"></video></div>
+        </div>
+        <div class="depth-compare gallery-page" data-sync-group>
+          <div class="depth-head"></div>
+          <div class="depth-head">Depth-Anything-V2</div>
+          <div class="depth-head">UniDepth</div>
+          <div class="depth-head">EndoStreamDepth</div>
+          <div class="depth-head">FlashDepth</div>
+          <div class="depth-slot depth-input"><span class="depth-badge">Real input</span><video class="depth-video" poster="static/images/posters/depth_clip6_input.jpg" muted loop playsinline preload="none" data-autoplay-inview data-sync-master><source src="static/videos/depth/clip6/input.mp4" type="video/mp4"></video></div>
+          <div class="depth-slot"><span class="depth-badge">Zero-shot</span><video class="depth-video" poster="static/images/posters/depth_clip6_dav2_zeroshot.jpg" muted loop playsinline preload="none" data-autoplay-inview><source src="static/videos/depth/clip6/dav2_zeroshot.mp4" type="video/mp4"></video></div>
+          <div class="depth-slot"><span class="depth-badge">Zero-shot</span><video class="depth-video" poster="static/images/posters/depth_clip6_unidepth_zeroshot.jpg" muted loop playsinline preload="none" data-autoplay-inview><source src="static/videos/depth/clip6/unidepth_zeroshot.mp4" type="video/mp4"></video></div>
+          <div class="depth-slot"><span class="depth-badge">Zero-shot</span><video class="depth-video" poster="static/images/posters/depth_clip6_endostreamdepth_zeroshot.jpg" muted loop playsinline preload="none" data-autoplay-inview><source src="static/videos/depth/clip6/endostreamdepth_zeroshot.mp4" type="video/mp4"></video></div>
+          <div class="depth-slot"><span class="depth-badge">Zero-shot</span><video class="depth-video" poster="static/images/posters/depth_clip6_flashdepth_zeroshot.jpg" muted loop playsinline preload="none" data-autoplay-inview><source src="static/videos/depth/clip6/flashdepth_zeroshot.mp4" type="video/mp4"></video></div>
+          <div class="depth-slot"><span class="depth-badge is-ours">Fine-tuned</span><video class="depth-video" poster="static/images/posters/depth_clip6_dav2_finetuned.jpg" muted loop playsinline preload="none" data-autoplay-inview><source src="static/videos/depth/clip6/dav2_finetuned.mp4" type="video/mp4"></video></div>
+          <div class="depth-slot"><span class="depth-badge is-ours">Fine-tuned</span><video class="depth-video" poster="static/images/posters/depth_clip6_unidepth_finetuned.jpg" muted loop playsinline preload="none" data-autoplay-inview><source src="static/videos/depth/clip6/unidepth_finetuned.mp4" type="video/mp4"></video></div>
+          <div class="depth-slot"><span class="depth-badge is-ours">Fine-tuned</span><video class="depth-video" poster="static/images/posters/depth_clip6_endostreamdepth_finetuned.jpg" muted loop playsinline preload="none" data-autoplay-inview><source src="static/videos/depth/clip6/endostreamdepth_finetuned.mp4" type="video/mp4"></video></div>
+          <div class="depth-slot"><span class="depth-badge is-ours">Fine-tuned</span><video class="depth-video" poster="static/images/posters/depth_clip6_flashdepth_finetuned.jpg" muted loop playsinline preload="none" data-autoplay-inview><source src="static/videos/depth/clip6/flashdepth_finetuned.mp4" type="video/mp4"></video></div>
+        </div>
+        <div class="depth-compare gallery-page" data-sync-group>
+          <div class="depth-head"></div>
+          <div class="depth-head">Depth-Anything-V2</div>
+          <div class="depth-head">UniDepth</div>
+          <div class="depth-head">EndoStreamDepth</div>
+          <div class="depth-head">FlashDepth</div>
+          <div class="depth-slot depth-input"><span class="depth-badge">Real input</span><video class="depth-video" poster="static/images/posters/depth_clip7_input.jpg" muted loop playsinline preload="none" data-autoplay-inview data-sync-master><source src="static/videos/depth/clip7/input.mp4" type="video/mp4"></video></div>
+          <div class="depth-slot"><span class="depth-badge">Zero-shot</span><video class="depth-video" poster="static/images/posters/depth_clip7_dav2_zeroshot.jpg" muted loop playsinline preload="none" data-autoplay-inview><source src="static/videos/depth/clip7/dav2_zeroshot.mp4" type="video/mp4"></video></div>
+          <div class="depth-slot"><span class="depth-badge">Zero-shot</span><video class="depth-video" poster="static/images/posters/depth_clip7_unidepth_zeroshot.jpg" muted loop playsinline preload="none" data-autoplay-inview><source src="static/videos/depth/clip7/unidepth_zeroshot.mp4" type="video/mp4"></video></div>
+          <div class="depth-slot"><span class="depth-badge">Zero-shot</span><video class="depth-video" poster="static/images/posters/depth_clip7_endostreamdepth_zeroshot.jpg" muted loop playsinline preload="none" data-autoplay-inview><source src="static/videos/depth/clip7/endostreamdepth_zeroshot.mp4" type="video/mp4"></video></div>
+          <div class="depth-slot"><span class="depth-badge">Zero-shot</span><video class="depth-video" poster="static/images/posters/depth_clip7_flashdepth_zeroshot.jpg" muted loop playsinline preload="none" data-autoplay-inview><source src="static/videos/depth/clip7/flashdepth_zeroshot.mp4" type="video/mp4"></video></div>
+          <div class="depth-slot"><span class="depth-badge is-ours">Fine-tuned</span><video class="depth-video" poster="static/images/posters/depth_clip7_dav2_finetuned.jpg" muted loop playsinline preload="none" data-autoplay-inview><source src="static/videos/depth/clip7/dav2_finetuned.mp4" type="video/mp4"></video></div>
+          <div class="depth-slot"><span class="depth-badge is-ours">Fine-tuned</span><video class="depth-video" poster="static/images/posters/depth_clip7_unidepth_finetuned.jpg" muted loop playsinline preload="none" data-autoplay-inview><source src="static/videos/depth/clip7/unidepth_finetuned.mp4" type="video/mp4"></video></div>
+          <div class="depth-slot"><span class="depth-badge is-ours">Fine-tuned</span><video class="depth-video" poster="static/images/posters/depth_clip7_endostreamdepth_finetuned.jpg" muted loop playsinline preload="none" data-autoplay-inview><source src="static/videos/depth/clip7/endostreamdepth_finetuned.mp4" type="video/mp4"></video></div>
+          <div class="depth-slot"><span class="depth-badge is-ours">Fine-tuned</span><video class="depth-video" poster="static/images/posters/depth_clip7_flashdepth_finetuned.jpg" muted loop playsinline preload="none" data-autoplay-inview><source src="static/videos/depth/clip7/flashdepth_finetuned.mp4" type="video/mp4"></video></div>
+        </div>
+        <div class="depth-compare gallery-page" data-sync-group>
+          <div class="depth-head"></div>
+          <div class="depth-head">Depth-Anything-V2</div>
+          <div class="depth-head">UniDepth</div>
+          <div class="depth-head">EndoStreamDepth</div>
+          <div class="depth-head">FlashDepth</div>
+          <div class="depth-slot depth-input"><span class="depth-badge">Real input</span><video class="depth-video" poster="static/images/posters/depth_clip8_input.jpg" muted loop playsinline preload="none" data-autoplay-inview data-sync-master><source src="static/videos/depth/clip8/input.mp4" type="video/mp4"></video></div>
+          <div class="depth-slot"><span class="depth-badge">Zero-shot</span><video class="depth-video" poster="static/images/posters/depth_clip8_dav2_zeroshot.jpg" muted loop playsinline preload="none" data-autoplay-inview><source src="static/videos/depth/clip8/dav2_zeroshot.mp4" type="video/mp4"></video></div>
+          <div class="depth-slot"><span class="depth-badge">Zero-shot</span><video class="depth-video" poster="static/images/posters/depth_clip8_unidepth_zeroshot.jpg" muted loop playsinline preload="none" data-autoplay-inview><source src="static/videos/depth/clip8/unidepth_zeroshot.mp4" type="video/mp4"></video></div>
+          <div class="depth-slot"><span class="depth-badge">Zero-shot</span><video class="depth-video" poster="static/images/posters/depth_clip8_endostreamdepth_zeroshot.jpg" muted loop playsinline preload="none" data-autoplay-inview><source src="static/videos/depth/clip8/endostreamdepth_zeroshot.mp4" type="video/mp4"></video></div>
+          <div class="depth-slot"><span class="depth-badge">Zero-shot</span><video class="depth-video" poster="static/images/posters/depth_clip8_flashdepth_zeroshot.jpg" muted loop playsinline preload="none" data-autoplay-inview><source src="static/videos/depth/clip8/flashdepth_zeroshot.mp4" type="video/mp4"></video></div>
+          <div class="depth-slot"><span class="depth-badge is-ours">Fine-tuned</span><video class="depth-video" poster="static/images/posters/depth_clip8_dav2_finetuned.jpg" muted loop playsinline preload="none" data-autoplay-inview><source src="static/videos/depth/clip8/dav2_finetuned.mp4" type="video/mp4"></video></div>
+          <div class="depth-slot"><span class="depth-badge is-ours">Fine-tuned</span><video class="depth-video" poster="static/images/posters/depth_clip8_unidepth_finetuned.jpg" muted loop playsinline preload="none" data-autoplay-inview><source src="static/videos/depth/clip8/unidepth_finetuned.mp4" type="video/mp4"></video></div>
+          <div class="depth-slot"><span class="depth-badge is-ours">Fine-tuned</span><video class="depth-video" poster="static/images/posters/depth_clip8_endostreamdepth_finetuned.jpg" muted loop playsinline preload="none" data-autoplay-inview><source src="static/videos/depth/clip8/endostreamdepth_finetuned.mp4" type="video/mp4"></video></div>
+          <div class="depth-slot"><span class="depth-badge is-ours">Fine-tuned</span><video class="depth-video" poster="static/images/posters/depth_clip8_flashdepth_finetuned.jpg" muted loop playsinline preload="none" data-autoplay-inview><source src="static/videos/depth/clip8/flashdepth_finetuned.mp4" type="video/mp4"></video></div>
+        </div>
+        <div class="pager">
+          <button class="pager-arrow" type="button" data-pager="prev" aria-label="Previous clip"><i class="fas fa-chevron-left"></i></button>
+          <div class="pager-dots"></div>
+          <button class="pager-arrow" type="button" data-pager="next" aria-label="Next clip"><i class="fas fa-chevron-right"></i></button>
+        </div>
       </div>
-      <p class="video-caption">Depth is colour-coded per frame, near to far, with the same colour map for every model.</p>
+      <p class="video-caption">Eight clips from four patients, none of whom BronchoSim was generated from. Depth is
+        colour-coded per frame, near (dark) to far (bright), on the model's own range with the same colour map for
+        every model, so the videos compare shape, not absolute scale. Played in real time.</p>
     </div>
   </section>
 
