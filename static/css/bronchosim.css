@@ -83,6 +83,13 @@
   padding: 1.25rem 1.25rem 1rem;
 }
 
+.pipeline-video {
+  aspect-ratio: 480 / 560;
+  background: #fff;
+  border: 1px solid var(--border-color);
+  margin-bottom: 0.9rem;
+}
+
 .pipeline-stage h3 {
   font-family: 'Inter', sans-serif;
   font-weight: 700;

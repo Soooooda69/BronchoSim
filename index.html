@@ -59,7 +59,7 @@
 
   <link rel="stylesheet" href="static/css/bulma.min.css">
   <link rel="stylesheet" href="static/css/index.css">
-  <link rel="stylesheet" href="static/css/bronchosim.css?v=f3d995fd">
+  <link rel="stylesheet" href="static/css/bronchosim.css?v=a41ec1c0">
 
   <link rel="preload" href="static/css/bulma-carousel.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
   <link rel="preload" href="static/css/bulma-slider.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
@@ -79,7 +79,7 @@
   <script defer src="static/js/bulma-carousel.min.js"></script>
   <script defer src="static/js/bulma-slider.min.js"></script>
   <script defer src="static/js/index.js"></script>
-  <script defer src="static/js/bronchosim.js?v=f3d995fd"></script>
+  <script defer src="static/js/bronchosim.js?v=a41ec1c0"></script>
 
   <!-- three.js for the interactive breathing airway -->
   <script type="importmap">
@@ -279,19 +279,10 @@
         generated, and the generator is conditioned on the rendered geometry.
       </p>
 
-      <figure class="overview-figure">
-        <img src="static/images/overview.jpg" onerror="this.closest('figure').hidden = true" alt="BronchoSim overview: pre-op CT and real patient videos feed a simulation pipeline (camera motion modeling, respiration modeling, renderer producing RGB, depth and normal renderings), which conditions a transfer model that turns noise into realistic bronchoscopy scenes." loading="lazy">
-        <figcaption>
-          <b>Overview.</b> From each patient's pre-operative CT, the simulation pipeline models camera
-          motion and respiration and renders the airway, with depth and surface normals. These renderings
-          condition a transfer model, adapted to real patient videos, that generates realistic
-          bronchoscopy scenes.
-        </figcaption>
-      </figure>
-
-      <div class="pipeline">
+      <div class="pipeline" data-sync-group>
         <div class="pipeline-stage">
           <h3><span class="stage-tag">Geometry</span></h3>
+          <video class="media-video pipeline-video" poster="static/images/posters/pipeline_geometry.jpg" muted loop playsinline preload="none" data-autoplay-inview data-sync-master aria-label="Pre-op CT with the airway outline, the airway mesh and centerline tree, then the airway breathing coloured by displacement"><source src="static/videos/pipeline/geometry.mp4" type="video/mp4"></video>
           <div class="pipeline-step">
             <span class="step-num">1</span>
             <div><strong>Patient airway.</strong> The airway surface mesh, a signed-distance field and the
@@ -307,6 +298,7 @@
 
         <div class="pipeline-stage">
           <h3><span class="stage-tag">Motion</span></h3>
+          <video class="media-video pipeline-video" poster="static/images/posters/pipeline_motion.jpg" muted loop playsinline preload="none" data-autoplay-inview aria-label="Planned path on the breathing airway with the scope moving at its learned pace, and its speed trace"><source src="static/videos/pipeline/motion.mp4" type="video/mp4"></video>
           <div class="pipeline-step">
             <span class="step-num">3</span>
             <div><strong>Path planning.</strong> Random start and goal branches are connected through the
@@ -328,6 +320,7 @@
 
         <div class="pipeline-stage">
           <h3><span class="stage-tag">Appearance</span></h3>
+          <video class="media-video pipeline-video" poster="static/images/posters/pipeline_appearance.jpg" muted loop playsinline preload="none" data-autoplay-inview aria-label="Render, depth control, BronchoSim output and metric depth label for the same path"><source src="static/videos/pipeline/appearance.mp4" type="video/mp4"></video>
           <div class="pipeline-step">
             <span class="step-num">6</span>
             <div><strong>Render.</strong> The camera path is carried along with the tissue motion, and the
